@@ -22,7 +22,7 @@ import lombok.Getter;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "todo")
-public class Todo {
+public class Todo extends AbstractEntity{
     private static final String TODO_PREFIX = "todo_";
     private static final int TOKEN_LENGTH = 20;
 
