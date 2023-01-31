@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.todo.common.response.CommonResponse;
 import com.example.demo.todo.domain.Todo;
-import com.example.demo.todo.domain.TodoCommand;
 import com.example.demo.todo.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class TodoController {
 
     private final TodoService todoService;
-    private final TodoDtoMapper TodoDtoMapper;
     
     @GetMapping("todo")
     public List<Todo> getList() {
@@ -30,10 +28,12 @@ public class TodoController {
     }
 
     @PostMapping(value="/todo")
-    public CommonResponse<String> addItem(@RequestBody TodoDto.AddTodoReq todoReq) {
-        log.debug("todoReq: " + todoReq.toString());
-        TodoCommand.AddTodoReq req = TodoDtoMapper.of(todoReq);
-        String token = todoService.insertItem(req);
+    public CommonResponse<String> addItem(@RequestBody Todo todo) {
+        Todo inputTodo = Todo.builder()
+                .title(todo.getTitle())
+                .expectedDate(todo.getExpectedDate())
+                .build();
+        String token = todoService.insertItem(inputTodo);
         return CommonResponse.success(token);
     }
     
