@@ -3,18 +3,12 @@ package com.example.demo.todo.domain;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import com.example.demo.todo.common.utils.TokenGenerator;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,18 +28,34 @@ public class Todo extends AbstractEntity{
     private LocalDateTime expectedDate;
     @Enumerated(EnumType.STRING)
     private STATUS status;
+    private Long userId;
 
     @Builder
-    public Todo(String title, LocalDateTime expectedDate) {
+    public Todo(String title, LocalDateTime expectedDate, Long userId) {
         if(StringUtils.isBlank(title)) throw new InvalidParameterException("Todo.title");
         this.title = title;
         this.expectedDate = expectedDate;
+        this.userId = userId;
         this.token = TokenGenerator.generateRandomCharWithPrefix(TODO_PREFIX, TOKEN_LENGTH);
         this.status = STATUS.OPEN;
     }
 
+
     @Getter
     public enum STATUS {
         OPEN, ClOSED, INPROGRESS, COMPLETE
+    }
+
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", title='" + title + '\'' +
+                ", expectedDate=" + expectedDate +
+                ", status=" + status +
+                ", userId=" + userId +
+                '}';
     }
 }

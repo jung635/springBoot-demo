@@ -32,6 +32,7 @@ public class TodoController {
         Todo inputTodo = Todo.builder()
                 .title(todo.getTitle())
                 .expectedDate(todo.getExpectedDate())
+                .userId(todo.getUserId())
                 .build();
         String token = todoService.insertItem(inputTodo);
         return CommonResponse.success(token);
