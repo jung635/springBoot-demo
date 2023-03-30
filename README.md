@@ -9,6 +9,10 @@
   - 설정파일 암호화(jasypt)
 6. Authentication
    - OAuth2.0 적용
+7. 통신
+   - Kafka
+   - gRPC
+   - HTTP
 
 Functions
 1. Todo item 추가
